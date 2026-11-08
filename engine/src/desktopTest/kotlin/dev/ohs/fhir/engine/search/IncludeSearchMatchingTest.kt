@@ -31,6 +31,7 @@ import dev.ohs.fhir.model.r4.Practitioner
 import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.String as FhirString
 import dev.ohs.fhir.model.r4.Uri
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -144,7 +145,7 @@ class IncludeSearchMatchingTest {
   private fun observation(id: String, subject: String) =
     Observation(
       id = id,
-      status = Enumeration(value = Observation.ObservationStatus.Final),
+      status = Enumeration(value = ObservationStatus.Final),
       code =
         CodeableConcept(
           coding = listOf(Coding(system = Uri(value = SYSTEM), code = Code(value = CODE))),

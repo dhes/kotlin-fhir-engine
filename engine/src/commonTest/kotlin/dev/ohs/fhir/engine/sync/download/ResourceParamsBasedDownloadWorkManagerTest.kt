@@ -23,6 +23,9 @@ import dev.ohs.fhir.model.r4.Enumeration
 import dev.ohs.fhir.model.r4.OperationOutcome
 import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.Uri
+import dev.ohs.fhir.model.r4.terminologies.BundleType
+import dev.ohs.fhir.model.r4.terminologies.IssueSeverity
+import dev.ohs.fhir.model.r4.terminologies.IssueType
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainOnly
@@ -83,7 +86,7 @@ class ResourceParamsBasedDownloadWorkManagerTest {
         "Observation?_sort=_lastUpdated&_lastUpdated=gt2022-03-20", -> {
           downloadManager.processResponse(
             Bundle(
-              type = Enumeration(value = Bundle.BundleType.Searchset),
+              type = Enumeration(value = BundleType.Searchset),
               link =
                 listOf(
                   Bundle.Link(
@@ -211,8 +214,8 @@ class ResourceParamsBasedDownloadWorkManagerTest {
               OperationOutcome.Issue(
                 diagnostics =
                   dev.ohs.fhir.model.r4.String(value = "Server couldn't fulfil the request."),
-                code = Enumeration(value = OperationOutcome.IssueType.Exception),
-                severity = Enumeration(value = OperationOutcome.IssueSeverity.Error),
+                code = Enumeration(value = IssueType.Exception),
+                severity = Enumeration(value = IssueSeverity.Error),
               ),
             ),
         )
@@ -243,7 +246,7 @@ class ResourceParamsBasedDownloadWorkManagerTest {
       )
     val response =
       Bundle(
-        type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+        type = Enumeration(value = BundleType.Transaction_Response),
         entry =
           listOf(
             Bundle.Entry(resource = Patient(id = "Patient-Id-001")),
@@ -263,7 +266,7 @@ class ResourceParamsBasedDownloadWorkManagerTest {
       )
     val response =
       Bundle(
-        type = Enumeration(value = Bundle.BundleType.Searchset),
+        type = Enumeration(value = BundleType.Searchset),
         entry =
           listOf(
             Bundle.Entry(resource = Patient(id = "Patient-Id-001")),
@@ -284,7 +287,7 @@ class ResourceParamsBasedDownloadWorkManagerTest {
       )
     val response =
       Bundle(
-        type = Enumeration(value = Bundle.BundleType.Searchset),
+        type = Enumeration(value = BundleType.Searchset),
         link =
           listOf(
             Bundle.Link(
@@ -308,7 +311,7 @@ class ResourceParamsBasedDownloadWorkManagerTest {
       )
     val response =
       Bundle(
-        type = Enumeration(value = Bundle.BundleType.Searchset),
+        type = Enumeration(value = BundleType.Searchset),
         entry =
           listOf(
             Bundle.Entry(resource = Patient(id = "Patient-Id-001")),

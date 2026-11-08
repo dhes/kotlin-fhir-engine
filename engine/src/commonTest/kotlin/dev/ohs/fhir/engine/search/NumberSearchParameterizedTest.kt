@@ -16,8 +16,8 @@
 package dev.ohs.fhir.engine.search
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import dev.ohs.fhir.model.r4.SearchParameter.SearchComparator
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
+import dev.ohs.fhir.model.r4.terminologies.SearchComparator
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

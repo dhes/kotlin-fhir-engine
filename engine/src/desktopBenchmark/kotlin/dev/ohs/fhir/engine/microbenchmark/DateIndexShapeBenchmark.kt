@@ -20,8 +20,8 @@ import dev.ohs.fhir.engine.search.Search
 import dev.ohs.fhir.engine.search.SearchQuery
 import dev.ohs.fhir.engine.search.getQuery
 import dev.ohs.fhir.model.r4.FhirDate
-import dev.ohs.fhir.model.r4.SearchParameter.SearchComparator
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
+import dev.ohs.fhir.model.r4.terminologies.SearchComparator
 import kotlinx.benchmark.Benchmark
 import kotlinx.benchmark.BenchmarkMode
 import kotlinx.benchmark.BenchmarkTimeUnit

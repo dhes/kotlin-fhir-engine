@@ -21,23 +21,23 @@ import dev.ohs.fhir.model.r4.Enumeration
 import dev.ohs.fhir.model.r4.Resource
 import dev.ohs.fhir.model.r4.String
 import dev.ohs.fhir.model.r4.Uri
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 
 /**
  * Abstract class for generating [Bundle.Entry] for a [Patch] to be added to the [Bundle] based on
- * [Bundle.HTTPVerb] supported by the Fhir server. Concrete implementations of the class should
- * provide implementation of [getEntryResource] to provide [Resource] for the [LocalChangeEntity].
- * See [https://www.hl7.org/fhir/http.html#transaction] for more info regarding the supported
- * [Bundle.HTTPVerb].
+ * [HTTPVerb] supported by the Fhir server. Concrete implementations of the class should provide
+ * implementation of [getEntryResource] to provide [Resource] for the [LocalChangeEntity]. See
+ * [https://www.hl7.org/fhir/http.html#transaction] for more info regarding the supported
+ * [HTTPVerb].
  */
 internal abstract class BundleEntryComponentGenerator(
-  private val httpVerb: Bundle.HTTPVerb,
+  private val httpVerb: HTTPVerb,
   private val useETagForUpload: Boolean,
 ) {
 
   /**
    * Return [Resource]? for the [LocalChangeEntity]. Implementation may return null when a
-   * [Resource] may not be required in the request like in the case of a [Bundle.HTTPVerb.Delete]
-   * request.
+   * [Resource] may not be required in the request like in the case of a [HTTPVerb.Delete] request.
    */
   protected abstract fun getEntryResource(patch: Patch): Resource?
 

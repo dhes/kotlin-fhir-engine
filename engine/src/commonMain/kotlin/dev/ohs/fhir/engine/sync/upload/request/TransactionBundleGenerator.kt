@@ -21,6 +21,8 @@ import dev.ohs.fhir.engine.sync.upload.patch.PatchMapping
 import dev.ohs.fhir.engine.sync.upload.patch.StronglyConnectedPatchMappings
 import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.Enumeration
+import dev.ohs.fhir.model.r4.terminologies.BundleType
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 
 /** Generates list of [BundleUploadRequest] of type Transaction [Bundle] from the [Patch]es */
 internal class TransactionBundleGenerator(
@@ -85,7 +87,7 @@ internal class TransactionBundleGenerator(
     }
     val bundleRequest =
       Bundle(
-        type = Enumeration(value = Bundle.BundleType.Transaction),
+        type = Enumeration(value = BundleType.Transaction),
         entry = entries,
       )
     return splitLocalChanges to
@@ -98,26 +100,26 @@ internal class TransactionBundleGenerator(
 
     private val createMapping =
       mapOf(
-        Bundle.HTTPVerb.Put to this::putForCreateBasedBundleComponentMapper,
-        Bundle.HTTPVerb.Post to this::postForCreateBasedBundleComponentMapper,
+        HTTPVerb.Put to this::putForCreateBasedBundleComponentMapper,
+        HTTPVerb.Post to this::postForCreateBasedBundleComponentMapper,
       )
 
     private val updateMapping =
       mapOf(
-        Bundle.HTTPVerb.Patch to this::patchForUpdateBasedBundleComponentMapper,
+        HTTPVerb.Patch to this::patchForUpdateBasedBundleComponentMapper,
       )
 
     fun getDefault(useETagForUpload: Boolean = true, bundleSize: Int = 500) =
-      getGenerator(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch, bundleSize, useETagForUpload)
+      getGenerator(HTTPVerb.Put, HTTPVerb.Patch, bundleSize, useETagForUpload)
 
     /**
-     * Returns a [TransactionBundleGenerator] based on the provided [Bundle.HTTPVerb]s for creating
-     * and updating resources. The function may throw an [IllegalArgumentException] if the provided
-     * [Bundle.HTTPVerb]s are not supported.
+     * Returns a [TransactionBundleGenerator] based on the provided [HTTPVerb]s for creating and
+     * updating resources. The function may throw an [IllegalArgumentException] if the provided
+     * [HTTPVerb]s are not supported.
      */
     fun getGenerator(
-      httpVerbToUseForCreate: Bundle.HTTPVerb,
-      httpVerbToUseForUpdate: Bundle.HTTPVerb,
+      httpVerbToUseForCreate: HTTPVerb,
+      httpVerbToUseForUpdate: HTTPVerb,
       generatedBundleSize: Int = 500,
       useETagForUpload: Boolean = true,
     ): TransactionBundleGenerator {

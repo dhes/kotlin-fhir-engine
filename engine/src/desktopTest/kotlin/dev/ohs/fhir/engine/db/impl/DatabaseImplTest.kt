@@ -27,6 +27,7 @@ import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.String as FhirString
 import dev.ohs.fhir.model.r4.terminologies.AdministrativeGender
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import java.io.File
 import kotlin.test.AfterTest
@@ -222,7 +223,7 @@ class DatabaseImplTest {
     val observation =
       Observation(
         id = "obs-ref",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = dev.ohs.fhir.model.r4.CodeableConcept(),
         subject = Reference(reference = FhirString(value = "Patient/$TEST_PATIENT_1_ID")),
       )

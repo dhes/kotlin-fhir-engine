@@ -24,8 +24,8 @@ import dev.ohs.fhir.engine.search.getConditionParamPairForDate
 import dev.ohs.fhir.engine.search.getConditionParamPairForDateTime
 import dev.ohs.fhir.model.r4.FhirDate
 import dev.ohs.fhir.model.r4.FhirDateTime
-import dev.ohs.fhir.model.r4.SearchParameter.SearchComparator
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
+import dev.ohs.fhir.model.r4.terminologies.SearchComparator
 
 /**
  * Represents a criterion for filtering [DateClientParam]. e.g. filter(Patient.BIRTHDATE, { value

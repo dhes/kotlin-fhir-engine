@@ -24,6 +24,7 @@ import dev.ohs.fhir.model.r4.FhirDateTime
 import dev.ohs.fhir.model.r4.OperationOutcome
 import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.BundleType
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import kotlinx.datetime.toInstant
 
@@ -83,7 +84,7 @@ class TimestampBasedDownloadWorkManager(private val dataStore: DemoDataStore) :
 
     // Finally, extract the downloaded resources from the bundle.
     var bundleCollection: Collection<Resource> = mutableListOf()
-    if (response is Bundle && response.type.value == Bundle.BundleType.Searchset) {
+    if (response is Bundle && response.type.value == BundleType.Searchset) {
       bundleCollection =
         response.entry
           .mapNotNull { it.resource }

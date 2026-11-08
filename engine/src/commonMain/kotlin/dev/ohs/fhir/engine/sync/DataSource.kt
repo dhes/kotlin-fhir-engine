@@ -20,6 +20,7 @@ import dev.ohs.fhir.engine.sync.upload.request.UploadRequest
 import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.OperationOutcome
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.BundleType
 
 /** Interface for an abstraction of retrieving FHIR data from a network source. */
 internal interface DataSource {
@@ -27,7 +28,7 @@ internal interface DataSource {
   suspend fun download(downloadRequest: DownloadRequest): Resource
 
   /**
-   * @return [Bundle] of type [Bundle.BundleType.Transaction_Response] for a successful operation,
+   * @return [Bundle] of type [BundleType.Transaction_Response] for a successful operation,
    *   [OperationOutcome] otherwise. Call this api with the [Bundle] that needs to be uploaded to
    *   the server.
    */

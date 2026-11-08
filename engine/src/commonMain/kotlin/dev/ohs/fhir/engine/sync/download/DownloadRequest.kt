@@ -44,13 +44,13 @@ import dev.ohs.fhir.model.r4.Bundle
  *  addEntry(Bundle.BundleEntryComponent().apply {
  *    request = Bundle.BundleEntryRequestComponent().apply {
  *       url = "Patient/123"
- *       method = Bundle.HTTPVerb.GET
+ *       method = HTTPVerb.GET
  *    }
  *  })
  *  addEntry(Bundle.BundleEntryComponent().apply {
  *    request = Bundle.BundleEntryRequestComponent().apply {
  *       url = "Patient/124"
- *       method = Bundle.HTTPVerb.GET
+ *       method = HTTPVerb.GET
  *    }
  *  })
  * })

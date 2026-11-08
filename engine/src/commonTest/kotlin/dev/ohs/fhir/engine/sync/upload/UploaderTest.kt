@@ -39,6 +39,10 @@ import dev.ohs.fhir.model.r4.HumanName
 import dev.ohs.fhir.model.r4.OperationOutcome
 import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.BundleType
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
+import dev.ohs.fhir.model.r4.terminologies.IssueSeverity
+import dev.ohs.fhir.model.r4.terminologies.IssueType
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldHaveSize
@@ -82,7 +86,7 @@ class UploaderTest {
         Uploader(
             BundleDataSource {
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                type = Enumeration(value = BundleType.Transaction_Response),
                 entry =
                   listOf(
                     Bundle.Entry(resource = updatedPatient1),
@@ -137,7 +141,7 @@ class UploaderTest {
         Uploader(
             BundleDataSource {
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                type = Enumeration(value = BundleType.Transaction_Response),
                 entry =
                   listOf(
                     Bundle.Entry(resource = patient1),
@@ -187,7 +191,7 @@ class UploaderTest {
       Uploader(
           BundleDataSource {
             Bundle(
-              type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+              type = Enumeration(value = BundleType.Transaction_Response),
             )
           },
           perResourcePatchGenerator,
@@ -209,8 +213,8 @@ class UploaderTest {
               issue =
                 listOf(
                   OperationOutcome.Issue(
-                    severity = Enumeration(value = OperationOutcome.IssueSeverity.Warning),
-                    code = Enumeration(value = OperationOutcome.IssueType.Conflict),
+                    severity = Enumeration(value = IssueSeverity.Warning),
+                    code = Enumeration(value = IssueType.Conflict),
                     diagnostics =
                       dev.ohs.fhir.model.r4.String(
                         value = "The resource has already been updated.",
@@ -251,7 +255,7 @@ class UploaderTest {
         Uploader(
             BundleDataSource {
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Searchset),
+                type = Enumeration(value = BundleType.Searchset),
               )
             },
             perResourcePatchGenerator,
@@ -352,14 +356,14 @@ class UploaderTest {
         Uploader(
             UrlRequestDataSource {
               when (it.httpVerb) {
-                Bundle.HTTPVerb.Put -> {
+                HTTPVerb.Put -> {
                   when (it.resource.id) {
                     patient1Id -> updatedPatient1
                     patient2Id -> patient2
                     else -> throw IllegalArgumentException("Unknown patient ID")
                   }
                 }
-                Bundle.HTTPVerb.Patch -> updatedPatient1
+                HTTPVerb.Patch -> updatedPatient1
                 else -> throw IllegalArgumentException("Unknown patient ID")
               }
             },
@@ -410,7 +414,7 @@ class UploaderTest {
       Uploader(
           UrlRequestDataSource {
             Bundle(
-              type = Enumeration(value = Bundle.BundleType.Searchset),
+              type = Enumeration(value = BundleType.Searchset),
             )
           },
           perResourcePatchGenerator,
@@ -432,8 +436,8 @@ class UploaderTest {
               issue =
                 listOf(
                   OperationOutcome.Issue(
-                    severity = Enumeration(value = OperationOutcome.IssueSeverity.Warning),
-                    code = Enumeration(value = OperationOutcome.IssueType.Conflict),
+                    severity = Enumeration(value = IssueSeverity.Warning),
+                    code = Enumeration(value = IssueType.Conflict),
                     diagnostics =
                       dev.ohs.fhir.model.r4.String(
                         value = "The resource has already been updated.",
@@ -502,12 +506,12 @@ class UploaderTest {
               when (it.resource.entry[0].resource?.id) {
                 patient1Id ->
                   Bundle(
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                     entry = listOf(Bundle.Entry(resource = patient1)),
                   )
                 patient2Id ->
                   Bundle(
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                     entry = listOf(Bundle.Entry(resource = patient2)),
                   )
                 else -> throw IllegalArgumentException("Unknown patient ID")
@@ -549,16 +553,16 @@ class UploaderTest {
     private val fhirR4Json = Json
     private val urlUploadRequestGenerator =
       UploadRequestGeneratorFactory.byMode(
-        UploadRequestGeneratorMode.UrlRequest(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch),
+        UploadRequestGeneratorMode.UrlRequest(HTTPVerb.Put, HTTPVerb.Patch),
       )
     private val bundleUploadRequestGenerator =
       UploadRequestGeneratorFactory.byMode(
-        UploadRequestGeneratorMode.BundleRequest(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch),
+        UploadRequestGeneratorMode.BundleRequest(HTTPVerb.Put, HTTPVerb.Patch),
       )
 
     private val bundleUploadRequestGeneratorWithUnityBundleSize =
       UploadRequestGeneratorFactory.byMode(
-        UploadRequestGeneratorMode.BundleRequest(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch, 1),
+        UploadRequestGeneratorMode.BundleRequest(HTTPVerb.Put, HTTPVerb.Patch, 1),
       )
 
     const val patient1Id = "Patient-001"

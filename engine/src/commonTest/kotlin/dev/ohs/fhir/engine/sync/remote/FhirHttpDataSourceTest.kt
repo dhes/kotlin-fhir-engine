@@ -26,6 +26,8 @@ import dev.ohs.fhir.model.r4.Enumeration
 import dev.ohs.fhir.model.r4.HumanName
 import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.String as FhirR4String
+import dev.ohs.fhir.model.r4.terminologies.BundleType
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import io.ktor.client.engine.mock.MockEngine
@@ -54,7 +56,7 @@ internal class FhirHttpDataSourceTest {
                 parser.encodeToString(
                   Bundle(
                     id = "transaction-response-1",
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                   ),
                 ),
             )
@@ -82,7 +84,7 @@ internal class FhirHttpDataSourceTest {
             ),
           ),
       )
-    val request = UrlUploadRequest(Bundle.HTTPVerb.Post, "Patient", patient, emptyMap())
+    val request = UrlUploadRequest(HTTPVerb.Post, "Patient", patient, emptyMap())
     dataSource.upload(request)
 
     requestData!!.url.encodedPath.shouldBeEqual("${baseUrl}${request.url}")
@@ -105,7 +107,7 @@ internal class FhirHttpDataSourceTest {
       )
     val request =
       UrlUploadRequest(
-        Bundle.HTTPVerb.Put,
+        HTTPVerb.Put,
         "Patient/Patient-001",
         patient,
         emptyMap(),
@@ -132,7 +134,7 @@ internal class FhirHttpDataSourceTest {
 
     val request =
       UrlUploadRequest(
-        Bundle.HTTPVerb.Patch,
+        HTTPVerb.Patch,
         "Patient/Patient-001",
         patchToApply,
         mapOf("Content-Type" to ContentTypes.APPLICATION_JSON_PATCH),

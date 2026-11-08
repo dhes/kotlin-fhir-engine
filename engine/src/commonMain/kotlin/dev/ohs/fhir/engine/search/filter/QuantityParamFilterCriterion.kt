@@ -21,7 +21,7 @@ import dev.ohs.fhir.engine.search.Operation
 import dev.ohs.fhir.engine.search.QuantityClientParam
 import dev.ohs.fhir.engine.search.SearchDslMarker
 import dev.ohs.fhir.engine.search.getConditionParamPair
-import dev.ohs.fhir.model.r4.SearchParameter.SearchComparator
+import dev.ohs.fhir.model.r4.terminologies.SearchComparator
 
 /**
  * Represents a criterion for filtering [QuantityClientParam]. e.g.

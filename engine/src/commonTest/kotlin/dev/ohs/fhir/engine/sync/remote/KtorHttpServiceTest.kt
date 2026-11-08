@@ -21,6 +21,7 @@ import dev.ohs.fhir.model.r4.Enumeration
 import dev.ohs.fhir.model.r4.HumanName
 import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.String as FhirR4String
+import dev.ohs.fhir.model.r4.terminologies.BundleType
 import io.kotest.matchers.equals.shouldBeEqual
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
@@ -86,14 +87,13 @@ class KtorHttpServiceTest {
                 parser.encodeToString(
                   Bundle(
                     id = "transaction-response-1",
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                   ),
                 ),
               )
             },
         )
-    val request =
-      Bundle(id = "transaction-1", type = Enumeration(value = Bundle.BundleType.Transaction))
+    val request = Bundle(id = "transaction-1", type = Enumeration(value = BundleType.Transaction))
 
     val result = httpService.post("", request, mapOf("If-Match" to "randomResourceVersionID"))
     requestHeaders!!.contains("If-Match", "randomResourceVersionID")
@@ -114,14 +114,13 @@ class KtorHttpServiceTest {
                 parser.encodeToString(
                   Bundle(
                     id = "transaction-response-1",
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                   ),
                 ),
               )
             },
         )
-    val request =
-      Bundle(id = "transaction-1", type = Enumeration(value = Bundle.BundleType.Transaction))
+    val request = Bundle(id = "transaction-1", type = Enumeration(value = BundleType.Transaction))
 
     httpService.post("", request, emptyMap())
 
@@ -140,19 +139,18 @@ class KtorHttpServiceTest {
                   parser.encodeToString(
                     Bundle(
                       id = "transaction-response-1",
-                      type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                      type = Enumeration(value = BundleType.Transaction_Response),
                     ),
                   ),
                 )
               },
           )
-      val request =
-        Bundle(id = "transaction-1", type = Enumeration(value = Bundle.BundleType.Transaction))
+      val request = Bundle(id = "transaction-1", type = Enumeration(value = BundleType.Transaction))
 
       val result = httpService.post("", request, emptyMap())
 
       result.shouldBeInstanceOf<Bundle>()
-      result.type.value.shouldBe(Bundle.BundleType.Transaction_Response)
+      result.type.value.shouldBe(BundleType.Transaction_Response)
       result.id.shouldBe("transaction-response-1")
     }
 
@@ -173,14 +171,13 @@ class KtorHttpServiceTest {
                 parser.encodeToString(
                   Bundle(
                     id = "transaction-response-1",
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                   ),
                 ),
               )
             },
         )
-    val request =
-      Bundle(id = "transaction-1", type = Enumeration(value = Bundle.BundleType.Transaction))
+    val request = Bundle(id = "transaction-1", type = Enumeration(value = BundleType.Transaction))
 
     httpService.post("", request, emptyMap())
 
@@ -212,14 +209,13 @@ class KtorHttpServiceTest {
                 parser.encodeToString(
                   Bundle(
                     id = "transaction-response-1",
-                    type = Enumeration(value = Bundle.BundleType.Transaction_Response),
+                    type = Enumeration(value = BundleType.Transaction_Response),
                   ),
                 ),
               )
             },
         )
-    val request =
-      Bundle(id = "transaction-1", type = Enumeration(value = Bundle.BundleType.Transaction))
+    val request = Bundle(id = "transaction-1", type = Enumeration(value = BundleType.Transaction))
 
     httpService.post("", request, emptyMap())
 

@@ -21,6 +21,7 @@ import dev.ohs.fhir.model.r4.Observation
 import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.String as FhirString
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.serialization.json.Json
@@ -44,7 +45,7 @@ class JsonUtilsTest {
     val observation =
       Observation(
         id = "f001",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         subject = Reference(reference = FhirString(value = "Patient/123")),
         performer = listOf(Reference(reference = FhirString(value = "Patient/123"))),

@@ -19,28 +19,28 @@ import dev.ohs.fhir.engine.ContentTypes
 import dev.ohs.fhir.engine.sync.upload.patch.Patch
 import dev.ohs.fhir.model.r4.Base64Binary
 import dev.ohs.fhir.model.r4.Binary
-import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.Code
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import kotlin.io.encoding.Base64
 import kotlinx.serialization.json.Json
 
 internal class HttpPutForCreateEntryComponentGenerator(useETagForUpload: Boolean) :
-  BundleEntryComponentGenerator(Bundle.HTTPVerb.Put, useETagForUpload) {
+  BundleEntryComponentGenerator(HTTPVerb.Put, useETagForUpload) {
   override fun getEntryResource(patch: Patch): Resource {
     return Json.decodeFromString<Resource>(patch.payload)
   }
 }
 
 internal class HttpPostForCreateEntryComponentGenerator(useETagForUpload: Boolean) :
-  BundleEntryComponentGenerator(Bundle.HTTPVerb.Post, useETagForUpload) {
+  BundleEntryComponentGenerator(HTTPVerb.Post, useETagForUpload) {
   override fun getEntryResource(patch: Patch): Resource {
     return Json.decodeFromString<Resource>(patch.payload)
   }
 }
 
 internal class HttpPatchForUpdateEntryComponentGenerator(useETagForUpload: Boolean) :
-  BundleEntryComponentGenerator(Bundle.HTTPVerb.Patch, useETagForUpload) {
+  BundleEntryComponentGenerator(HTTPVerb.Patch, useETagForUpload) {
   override fun getEntryResource(patch: Patch): Resource {
     return Binary(
       contentType = Code(value = ContentTypes.APPLICATION_JSON_PATCH),
@@ -50,6 +50,6 @@ internal class HttpPatchForUpdateEntryComponentGenerator(useETagForUpload: Boole
 }
 
 internal class HttpDeleteEntryComponentGenerator(useETagForUpload: Boolean) :
-  BundleEntryComponentGenerator(Bundle.HTTPVerb.Delete, useETagForUpload) {
+  BundleEntryComponentGenerator(HTTPVerb.Delete, useETagForUpload) {
   override fun getEntryResource(patch: Patch): Resource? = null
 }

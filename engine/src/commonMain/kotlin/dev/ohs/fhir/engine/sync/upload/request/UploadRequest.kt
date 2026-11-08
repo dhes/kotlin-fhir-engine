@@ -17,6 +17,7 @@ package dev.ohs.fhir.engine.sync.upload.request
 
 import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 
 /**
  * Structure represents a request that can be made to upload resources/resource modifications to the
@@ -39,7 +40,7 @@ data class BundleUploadRequest(
 
 /** A [url] based FHIR request to upload resources to the server. */
 data class UrlUploadRequest(
-  val httpVerb: Bundle.HTTPVerb,
+  val httpVerb: HTTPVerb,
   override val url: String,
   override val resource: Resource,
   override val headers: Map<String, String> = emptyMap(),

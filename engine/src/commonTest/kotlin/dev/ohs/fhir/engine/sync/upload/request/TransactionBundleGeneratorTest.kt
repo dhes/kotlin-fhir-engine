@@ -23,7 +23,8 @@ import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.deleteL
 import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.insertionLocalChange
 import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.toPatch
 import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.updateLocalChange
-import dev.ohs.fhir.model.r4.Bundle
+import dev.ohs.fhir.model.r4.terminologies.BundleType
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.collections.shouldBeEmpty
@@ -59,14 +60,14 @@ class TransactionBundleGeneratorTest {
 
     result.shouldHaveSize(1)
     with(result[0].generatedRequest.resource) {
-      type.value.shouldBe(Bundle.BundleType.Transaction)
+      type.value.shouldBe(BundleType.Transaction)
       entry.shouldHaveSize(3)
       entry
         .mapNotNull { it.request?.method?.value }
         .shouldContainExactly(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Patch,
-          Bundle.HTTPVerb.Delete,
+          HTTPVerb.Put,
+          HTTPVerb.Patch,
+          HTTPVerb.Delete,
         )
     }
 
@@ -83,8 +84,8 @@ class TransactionBundleGeneratorTest {
           .map { StronglyConnectedPatchMappings(listOf(it)) }
       val generator =
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Patch,
+          HTTPVerb.Put,
+          HTTPVerb.Patch,
           1,
           true,
         )
@@ -92,12 +93,11 @@ class TransactionBundleGeneratorTest {
         // Exactly 3 Requests are generated
         this.shouldHaveSize(3)
         // Each Request is of type Bundle
-        all { it.generatedRequest.resource.type.value == Bundle.BundleType.Transaction }
-          .shouldBeTrue()
+        all { it.generatedRequest.resource.type.value == BundleType.Transaction }.shouldBeTrue()
         // Each Bundle has exactly 1 entry
         all { it.generatedRequest.resource.entry.size == 1 }.shouldBeTrue()
         map { it.generatedRequest.resource.entry.first().request?.method?.value }
-          .shouldContainExactly(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch, Bundle.HTTPVerb.Delete)
+          .shouldContainExactly(HTTPVerb.Put, HTTPVerb.Patch, HTTPVerb.Delete)
         map { it.generatedRequest.resource.entry.first().request?.ifMatch?.value }
           .shouldContainExactly(null, "W/\"v-p002-01\"", "W/\"v-p003-01\"")
         // Each Bundle request is mapped to 1 LocalChange
@@ -111,8 +111,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       runCatching {
           TransactionBundleGenerator.getGenerator(
-            Bundle.HTTPVerb.Post,
-            Bundle.HTTPVerb.Patch,
+            HTTPVerb.Post,
+            HTTPVerb.Patch,
             generatedBundleSize = 500,
             useETagForUpload = true,
           )
@@ -223,8 +223,8 @@ class TransactionBundleGeneratorTest {
     runTest {
       val generator =
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Patch,
+          HTTPVerb.Put,
+          HTTPVerb.Patch,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -237,8 +237,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Delete,
-          Bundle.HTTPVerb.Patch,
+          HTTPVerb.Delete,
+          HTTPVerb.Patch,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -251,8 +251,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Get,
-          Bundle.HTTPVerb.Patch,
+          HTTPVerb.Get,
+          HTTPVerb.Patch,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -265,8 +265,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Patch,
-          Bundle.HTTPVerb.Patch,
+          HTTPVerb.Patch,
+          HTTPVerb.Patch,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -279,8 +279,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Delete,
+          HTTPVerb.Put,
+          HTTPVerb.Delete,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -293,8 +293,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Get,
+          HTTPVerb.Put,
+          HTTPVerb.Get,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -307,8 +307,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Post,
+          HTTPVerb.Put,
+          HTTPVerb.Post,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )
@@ -321,8 +321,8 @@ class TransactionBundleGeneratorTest {
     val exception =
       assertFailsWith(IllegalArgumentException::class) {
         TransactionBundleGenerator.getGenerator(
-          Bundle.HTTPVerb.Put,
-          Bundle.HTTPVerb.Put,
+          HTTPVerb.Put,
+          HTTPVerb.Put,
           generatedBundleSize = 500,
           useETagForUpload = true,
         )

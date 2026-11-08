@@ -21,8 +21,8 @@ import dev.ohs.fhir.engine.sync.upload.patch.PatchMapping
 import dev.ohs.fhir.engine.sync.upload.patch.StronglyConnectedPatchMappings
 import dev.ohs.fhir.model.r4.Base64Binary
 import dev.ohs.fhir.model.r4.Binary
-import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.Code
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import kotlin.io.encoding.Base64
 import kotlinx.serialization.json.Json
 
@@ -61,25 +61,25 @@ internal class UrlRequestGenerator(
 
     private val createMapping =
       mapOf(
-        Bundle.HTTPVerb.Post to this::postForCreateResource,
-        Bundle.HTTPVerb.Put to this::putForCreateResource,
+        HTTPVerb.Post to this::postForCreateResource,
+        HTTPVerb.Put to this::putForCreateResource,
       )
 
     private val updateMapping =
       mapOf(
-        Bundle.HTTPVerb.Patch to this::patchForUpdateResource,
+        HTTPVerb.Patch to this::patchForUpdateResource,
       )
 
-    fun getDefault() = getGenerator(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch)
+    fun getDefault() = getGenerator(HTTPVerb.Put, HTTPVerb.Patch)
 
     /**
-     * Returns a [UrlRequestGenerator] based on the provided [Bundle.HTTPVerb]s for creating and
-     * updating resources. The function may throw an [IllegalArgumentException] if the provided
-     * [Bundle.HTTPVerb]s are not supported.
+     * Returns a [UrlRequestGenerator] based on the provided [HTTPVerb]s for creating and updating
+     * resources. The function may throw an [IllegalArgumentException] if the provided [HTTPVerb]s
+     * are not supported.
      */
     fun getGenerator(
-      httpVerbToUseForCreate: Bundle.HTTPVerb,
-      httpVerbToUseForUpdate: Bundle.HTTPVerb,
+      httpVerbToUseForCreate: HTTPVerb,
+      httpVerbToUseForUpdate: HTTPVerb,
     ): UrlRequestGenerator {
       val createFunction =
         createMapping[httpVerbToUseForCreate]
@@ -104,28 +104,28 @@ internal class UrlRequestGenerator(
 
     private fun deleteFunction(patch: Patch) =
       UrlUploadRequest(
-        httpVerb = Bundle.HTTPVerb.Delete,
+        httpVerb = HTTPVerb.Delete,
         url = "${patch.resourceType}/${patch.resourceId}",
         resource = fhirR4Json.decodeFromString(patch.payload),
       )
 
     private fun postForCreateResource(patch: Patch) =
       UrlUploadRequest(
-        httpVerb = Bundle.HTTPVerb.Post,
+        httpVerb = HTTPVerb.Post,
         url = patch.resourceType,
         resource = fhirR4Json.decodeFromString(patch.payload),
       )
 
     private fun putForCreateResource(patch: Patch) =
       UrlUploadRequest(
-        httpVerb = Bundle.HTTPVerb.Put,
+        httpVerb = HTTPVerb.Put,
         url = "${patch.resourceType}/${patch.resourceId}",
         resource = fhirR4Json.decodeFromString(patch.payload),
       )
 
     private fun patchForUpdateResource(patch: Patch) =
       UrlUploadRequest(
-        httpVerb = Bundle.HTTPVerb.Patch,
+        httpVerb = HTTPVerb.Patch,
         url = "${patch.resourceType}/${patch.resourceId}",
         resource =
           Binary(

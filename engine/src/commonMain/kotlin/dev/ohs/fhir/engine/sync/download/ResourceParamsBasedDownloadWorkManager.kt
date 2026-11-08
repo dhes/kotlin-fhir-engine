@@ -26,15 +26,16 @@ import dev.ohs.fhir.engine.toTimeZoneString
 import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.OperationOutcome
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.BundleType
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 
 typealias ResourceSearchParams = Map<ResourceType, ParamMap>
 
 /**
  * [DownloadWorkManager] implementation based on the provided [ResourceSearchParams] to generate
- * [Resource] search queries and parse [Bundle.BundleType.Searchset] type [Bundle]. This
- * implementation takes a DFS approach and downloads all available resources for a particular
- * [ResourceType] before moving on to the next [ResourceType].
+ * [Resource] search queries and parse [BundleType.Searchset] type [Bundle]. This implementation
+ * takes a DFS approach and downloads all available resources for a particular [ResourceType] before
+ * moving on to the next [ResourceType].
  */
 class ResourceParamsBasedDownloadWorkManager(
   syncParams: ResourceSearchParams,
@@ -104,7 +105,7 @@ class ResourceParamsBasedDownloadWorkManager(
       throw IllegalStateException(response.issue.firstOrNull()?.diagnostics?.value)
     }
 
-    if ((response !is Bundle || response.type.value != Bundle.BundleType.Searchset)) {
+    if ((response !is Bundle || response.type.value != BundleType.Searchset)) {
       return emptyList()
     }
 

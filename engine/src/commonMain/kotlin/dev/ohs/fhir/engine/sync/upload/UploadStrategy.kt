@@ -17,7 +17,7 @@ package dev.ohs.fhir.engine.sync.upload
 
 import dev.ohs.fhir.engine.sync.upload.patch.PatchGeneratorMode
 import dev.ohs.fhir.engine.sync.upload.request.UploadRequestGeneratorMode
-import dev.ohs.fhir.model.r4.Bundle.HTTPVerb
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 
 /**
  * Defines strategies for uploading FHIR resource [local changes][dev.ohs.fhir.engine.LocalChange]

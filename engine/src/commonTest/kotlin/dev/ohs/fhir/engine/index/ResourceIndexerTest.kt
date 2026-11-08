@@ -69,8 +69,17 @@ import dev.ohs.fhir.model.r4.Substance
 import dev.ohs.fhir.model.r4.Timing
 import dev.ohs.fhir.model.r4.Uri
 import dev.ohs.fhir.model.r4.terminologies.AdministrativeGender
+import dev.ohs.fhir.model.r4.terminologies.CarePlanActivityStatus
+import dev.ohs.fhir.model.r4.terminologies.CarePlanIntent
 import dev.ohs.fhir.model.r4.terminologies.Currencies
+import dev.ohs.fhir.model.r4.terminologies.EncounterStatus
+import dev.ohs.fhir.model.r4.terminologies.InvoiceStatus
+import dev.ohs.fhir.model.r4.terminologies.NameUse
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import dev.ohs.fhir.model.r4.terminologies.PublicationStatus
+import dev.ohs.fhir.model.r4.terminologies.RelatedArtifactType
+import dev.ohs.fhir.model.r4.terminologies.RequestStatus
+import dev.ohs.fhir.model.r4.terminologies.UnitsOfTime
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertContains
@@ -203,7 +212,7 @@ class ResourceIndexerTest {
     val riskAssessment =
       RiskAssessment(
         id = "someID",
-        status = Enumeration(value = RiskAssessment.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         subject = Reference(reference = FhirString(value = "Patient/x")),
         prediction =
           listOf(
@@ -263,7 +272,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective = Observation.Effective.DateTime(fhirDateTime(iso)),
       )
@@ -282,7 +291,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective = Observation.Effective.Instant(fhirInstant(iso)),
       )
@@ -301,7 +310,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective =
           Observation.Effective.Period(
@@ -323,7 +332,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective = Observation.Effective.Period(Period(start = null, end = fhirDateTime(endIso))),
       )
@@ -341,7 +350,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective =
           Observation.Effective.Period(Period(start = fhirDateTime(startIso), end = null)),
@@ -361,7 +370,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective = Observation.Effective.Timing(Timing(event = isoList.map { fhirDateTime(it) })),
       )
@@ -379,7 +388,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective =
           Observation.Effective.Timing(
@@ -388,7 +397,7 @@ class ResourceIndexerTest {
                 Timing.Repeat(
                   frequency = PositiveInt(value = 1),
                   period = Decimal(value = FhirDecimal.ONE),
-                  periodUnit = Enumeration(value = Timing.UnitsOfTime.D),
+                  periodUnit = Enumeration(value = UnitsOfTime.D),
                 ),
             ),
           ),
@@ -406,15 +415,15 @@ class ResourceIndexerTest {
     val carePlan =
       CarePlan(
         id = "non-null-ID",
-        status = Enumeration(value = CarePlan.RequestStatus.Active),
-        intent = Enumeration(value = CarePlan.CarePlanIntent.Plan),
+        status = Enumeration(value = RequestStatus.Active),
+        intent = Enumeration(value = CarePlanIntent.Plan),
         subject = Reference(reference = FhirString(value = "Patient/x")),
         activity =
           listOf(
             CarePlan.Activity(
               detail =
                 CarePlan.Activity.Detail(
-                  status = Enumeration(value = CarePlan.CarePlanActivityStatus.Not_Started),
+                  status = Enumeration(value = CarePlanActivityStatus.Not_Started),
                   scheduled = CarePlan.Activity.Detail.Scheduled.String(FhirString(value = iso)),
                 ),
             ),
@@ -434,7 +443,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-id",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         effective = null,
       )
@@ -498,7 +507,7 @@ class ResourceIndexerTest {
     val invoice =
       Invoice(
         id = "someid",
-        status = Enumeration(value = Invoice.InvoiceStatus.Issued),
+        status = Enumeration(value = InvoiceStatus.Issued),
         identifier =
           listOf(Identifier(system = Uri(value = system), value = FhirString(value = value))),
       )
@@ -516,7 +525,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code =
           CodeableConcept(
             coding =
@@ -537,7 +546,7 @@ class ResourceIndexerTest {
     val encounter =
       Encounter(
         id = "non-null-ID",
-        status = Enumeration(value = Encounter.EncounterStatus.Finished),
+        status = Enumeration(value = EncounterStatus.Finished),
         `class` =
           Coding(
             system = Uri(value = systemString),
@@ -557,7 +566,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
       )
     val resourceIndices = resourceIndexer.index(observation)
@@ -570,7 +579,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "someID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(coding = listOf(Coding())),
       )
     val resourceIndices = resourceIndexer.index(observation)
@@ -604,7 +613,7 @@ class ResourceIndexerTest {
           listOf(
             RelatedArtifact(
               id = "someRelatedArtifact",
-              type = Enumeration(value = RelatedArtifact.RelatedArtifactType.Depends_On),
+              type = Enumeration(value = RelatedArtifactType.Depends_On),
               resource = Canonical(value = "Questionnaire/someQuestionnaire"),
             ),
           ),
@@ -670,7 +679,7 @@ class ResourceIndexerTest {
   private fun observationWithSubject(subject: Reference) =
     Observation(
       id = "someObservation",
-      status = Enumeration(value = Observation.ObservationStatus.Final),
+      status = Enumeration(value = ObservationStatus.Final),
       code = CodeableConcept(),
       subject = subject,
     )
@@ -800,7 +809,7 @@ class ResourceIndexerTest {
     val testInvoice =
       Invoice(
         id = "non_NULL_ID",
-        status = Enumeration(value = Invoice.InvoiceStatus.Issued),
+        status = Enumeration(value = InvoiceStatus.Issued),
         totalNet =
           Money(
             value = Decimal(value = FhirDecimal.fromInt(300)),
@@ -1316,7 +1325,7 @@ class ResourceIndexerTest {
     val observation =
       Observation(
         id = "non-null-ID",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code = CodeableConcept(),
         component =
           listOf(
@@ -1410,7 +1419,7 @@ class ResourceIndexerTest {
         name =
           listOf(
             HumanName(
-              use = Enumeration(value = HumanName.NameUse.Official),
+              use = Enumeration(value = NameUse.Official),
               family = FhirString(value = "Smith"),
               given = listOf(FhirString(value = "Darcy")),
             ),

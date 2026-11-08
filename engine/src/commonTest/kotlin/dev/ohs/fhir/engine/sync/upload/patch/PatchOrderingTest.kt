@@ -33,6 +33,10 @@ import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.RelatedPerson
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.EncounterStatus
+import dev.ohs.fhir.model.r4.terminologies.GroupType
+import dev.ohs.fhir.model.r4.terminologies.LinkType
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.equals.shouldBeEqual
 import kotlin.test.Test
@@ -263,7 +267,7 @@ class PatchOrderingTest {
     ) =
       Group(
           id = id,
-          type = Enumeration(value = Group.GroupType.Person),
+          type = Enumeration(value = GroupType.Person),
           actual = dev.ohs.fhir.model.r4.Boolean(value = true),
         )
         .also { localChanges.add(createInsertLocalChange(it, changeId)) }
@@ -307,7 +311,7 @@ class PatchOrderingTest {
                     Reference(
                       reference = dev.ohs.fhir.model.r4.String(value = "RelatedPerson/$it"),
                     ),
-                  type = Enumeration(value = Patient.LinkType.Seealso),
+                  type = Enumeration(value = LinkType.Seealso),
                 )
                 .toBuilder(),
             )
@@ -343,7 +347,7 @@ class PatchOrderingTest {
       Encounter(
           id = id,
           subject = Reference(reference = dev.ohs.fhir.model.r4.String(value = subject)),
-          status = Enumeration(value = Encounter.EncounterStatus.Planned),
+          status = Enumeration(value = EncounterStatus.Planned),
           `class` = Coding(code = Code(value = "AMB")),
         )
         .also {
@@ -367,7 +371,7 @@ class PatchOrderingTest {
           id = id,
           subject = Reference(reference = dev.ohs.fhir.model.r4.String(value = subject)),
           encounter = Reference(reference = dev.ohs.fhir.model.r4.String(value = encounter)),
-          status = Enumeration(value = Observation.ObservationStatus.Registered),
+          status = Enumeration(value = ObservationStatus.Registered),
           code = CodeableConcept(),
         )
         .also {

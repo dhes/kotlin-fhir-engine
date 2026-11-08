@@ -22,6 +22,7 @@ import dev.ohs.fhir.engine.sync.upload.request.UploadRequestGeneratorMode
 import dev.ohs.fhir.engine.versionId
 import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.DomainResource
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import kotlin.time.Instant
 
@@ -188,7 +189,7 @@ internal object ResourceConsolidatorFactory {
         is UploadRequestGeneratorMode.UrlRequest -> uploadRequestMode.httpVerbToUseForCreate
         is UploadRequestGeneratorMode.BundleRequest -> uploadRequestMode.httpVerbToUseForCreate
       }
-    return if (httpVerbToUse == Bundle.HTTPVerb.Post) {
+    return if (httpVerbToUse == HTTPVerb.Post) {
       HttpPostResourceConsolidator(database)
     } else {
       DefaultResourceConsolidator(database)

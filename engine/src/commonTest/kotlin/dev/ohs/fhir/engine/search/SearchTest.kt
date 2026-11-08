@@ -22,9 +22,11 @@ import dev.ohs.fhir.model.r4.ContactPoint
 import dev.ohs.fhir.model.r4.Enumeration
 import dev.ohs.fhir.model.r4.FhirDate
 import dev.ohs.fhir.model.r4.FhirDateTime
-import dev.ohs.fhir.model.r4.SearchParameter.SearchComparator
 import dev.ohs.fhir.model.r4.String as FhirString
+import dev.ohs.fhir.model.r4.terminologies.ContactPointSystem
+import dev.ohs.fhir.model.r4.terminologies.ContactPointUse
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
+import dev.ohs.fhir.model.r4.terminologies.SearchComparator
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.uuid.Uuid
@@ -430,8 +432,8 @@ class SearchTest {
               value =
                 of(
                   ContactPoint(
-                    system = Enumeration(value = ContactPoint.ContactPointSystem.Email),
-                    use = Enumeration(value = ContactPoint.ContactPointUse.Home),
+                    system = Enumeration(value = ContactPointSystem.Email),
+                    use = Enumeration(value = ContactPointUse.Home),
                     value = FhirString(value = "test@gmail.com"),
                   ),
                 )
@@ -457,7 +459,7 @@ class SearchTest {
         ResourceType.Patient.name,
         "telecom",
         "test@gmail.com",
-        ContactPoint.ContactPointUse.Home.code,
+        ContactPointUse.Home.code,
       ),
       query.args,
     )
@@ -474,7 +476,7 @@ class SearchTest {
               value =
                 of(
                   ContactPoint(
-                    system = Enumeration(value = ContactPoint.ContactPointSystem.Email),
+                    system = Enumeration(value = ContactPointSystem.Email),
                     value = FhirString(value = "test@gmail.com"),
                   ),
                 )

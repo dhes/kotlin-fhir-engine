@@ -19,7 +19,7 @@ import dev.ohs.fhir.engine.LocalChange
 import dev.ohs.fhir.engine.sync.upload.patch.Patch
 import dev.ohs.fhir.engine.sync.upload.patch.PatchMapping
 import dev.ohs.fhir.engine.sync.upload.patch.StronglyConnectedPatchMappings
-import dev.ohs.fhir.model.r4.Bundle
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 
 /**
  * Generator that generates [UploadRequest]s from the [Patch]es present in the
@@ -37,13 +37,13 @@ internal interface UploadRequestGenerator {
 /** Mode to decide the type of [UploadRequest] that needs to be generated */
 internal sealed class UploadRequestGeneratorMode {
   data class UrlRequest(
-    val httpVerbToUseForCreate: Bundle.HTTPVerb,
-    val httpVerbToUseForUpdate: Bundle.HTTPVerb,
+    val httpVerbToUseForCreate: HTTPVerb,
+    val httpVerbToUseForUpdate: HTTPVerb,
   ) : UploadRequestGeneratorMode()
 
   data class BundleRequest(
-    val httpVerbToUseForCreate: Bundle.HTTPVerb,
-    val httpVerbToUseForUpdate: Bundle.HTTPVerb,
+    val httpVerbToUseForCreate: HTTPVerb,
+    val httpVerbToUseForUpdate: HTTPVerb,
     val bundleSize: Int = 500,
   ) : UploadRequestGeneratorMode()
 }

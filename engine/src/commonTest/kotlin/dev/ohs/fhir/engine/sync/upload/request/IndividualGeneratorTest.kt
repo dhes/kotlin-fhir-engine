@@ -22,7 +22,7 @@ import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.inserti
 import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.toPatch
 import dev.ohs.fhir.engine.sync.upload.request.RequestGeneratorTestUtils.updateLocalChange
 import dev.ohs.fhir.model.r4.Binary
-import dev.ohs.fhir.model.r4.Bundle
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
@@ -43,7 +43,7 @@ class IndividualGeneratorTest {
 
   @Test
   fun should_create_a_post_request_for_insert() = runTest {
-    val generator = UrlRequestGenerator.getGenerator(Bundle.HTTPVerb.Post, Bundle.HTTPVerb.Patch)
+    val generator = UrlRequestGenerator.getGenerator(HTTPVerb.Post, HTTPVerb.Patch)
     val patchOutput =
       PatchMapping(
         localChanges = listOf(insertionLocalChange),
@@ -56,7 +56,7 @@ class IndividualGeneratorTest {
 
     with(requests.single()) {
       with(generatedRequest) {
-        httpVerb.shouldBeEqual(Bundle.HTTPVerb.Post)
+        httpVerb.shouldBeEqual(HTTPVerb.Post)
         url.shouldBeEqual("Patient")
       }
       localChanges.shouldBeEqual(patchOutput.localChanges)
@@ -78,7 +78,7 @@ class IndividualGeneratorTest {
 
     with(requests.single()) {
       with(generatedRequest) {
-        httpVerb.shouldBeEqual(Bundle.HTTPVerb.Put)
+        httpVerb.shouldBeEqual(HTTPVerb.Put)
         url.shouldBeEqual("Patient/Patient-001")
       }
       localChanges.shouldBeEqual(patchOutput.localChanges)
@@ -100,7 +100,7 @@ class IndividualGeneratorTest {
     with(requests.single()) {
       with(generatedRequest) {
         requests.shouldHaveSize(1)
-        httpVerb.shouldBe(Bundle.HTTPVerb.Patch)
+        httpVerb.shouldBe(HTTPVerb.Patch)
         url.shouldBe("Patient/Patient-001")
         (resource as Binary)
           .data
@@ -128,7 +128,7 @@ class IndividualGeneratorTest {
       )
     with(requests.single()) {
       with(generatedRequest) {
-        httpVerb.shouldBeEqual(Bundle.HTTPVerb.Delete)
+        httpVerb.shouldBeEqual(HTTPVerb.Delete)
         url.shouldBeEqual("Patient/Patient-001")
       }
       localChanges.shouldBeEqual(patchOutput.localChanges)
@@ -149,6 +149,6 @@ class IndividualGeneratorTest {
     result.shouldHaveSize(3)
     result
       .map { it.generatedRequest.httpVerb }
-      .shouldContainExactly(Bundle.HTTPVerb.Put, Bundle.HTTPVerb.Patch, Bundle.HTTPVerb.Delete)
+      .shouldContainExactly(HTTPVerb.Put, HTTPVerb.Patch, HTTPVerb.Delete)
   }
 }

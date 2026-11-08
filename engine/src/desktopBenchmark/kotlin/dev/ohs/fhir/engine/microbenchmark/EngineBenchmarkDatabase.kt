@@ -44,6 +44,7 @@ import dev.ohs.fhir.model.r4.RiskAssessment
 import dev.ohs.fhir.model.r4.String as FhirString
 import dev.ohs.fhir.model.r4.Uri
 import dev.ohs.fhir.model.r4.terminologies.AdministrativeGender
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import java.io.File
 import kotlinx.coroutines.runBlocking
@@ -206,7 +207,7 @@ internal class EngineBenchmarkDatabase(
     fun observation(row: Int, subjects: Int): Observation =
       Observation(
         id = "engine-observation-$row",
-        status = Enumeration(value = Observation.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         code =
           CodeableConcept(
             coding =
@@ -233,7 +234,7 @@ internal class EngineBenchmarkDatabase(
       RiskAssessment(
         id = "engine-risk-$row",
         // The generator names every status enum after Observation's, whatever the resource.
-        status = Enumeration(value = RiskAssessment.ObservationStatus.Final),
+        status = Enumeration(value = ObservationStatus.Final),
         subject = Reference(reference = FhirString(value = "Patient/${patientId(row)}")),
         prediction =
           listOf(

@@ -35,6 +35,7 @@ import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.String as FhirString
 import dev.ohs.fhir.model.r4.Uri
 import dev.ohs.fhir.model.r4.terminologies.AdministrativeGender
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import kotlinx.datetime.LocalDate
 
 /**
@@ -95,7 +96,7 @@ object Fixtures {
   val observation =
     Observation(
       id = "observation-1",
-      status = Enumeration(value = Observation.ObservationStatus.Final),
+      status = Enumeration(value = ObservationStatus.Final),
       code =
         CodeableConcept(
           coding = listOf(Coding(system = Uri(value = LOINC), code = Code(value = "718-7"))),

@@ -32,6 +32,12 @@ import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.Resource
 import dev.ohs.fhir.model.r4.String as FhirR4String
 import dev.ohs.fhir.model.r4.Uri
+import dev.ohs.fhir.model.r4.terminologies.BundleType
+import dev.ohs.fhir.model.r4.terminologies.EncounterStatus
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
+import dev.ohs.fhir.model.r4.terminologies.IssueSeverity
+import dev.ohs.fhir.model.r4.terminologies.IssueType
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import io.kotest.matchers.collections.shouldContainInOrder
 import kotlin.test.Test
@@ -56,7 +62,7 @@ class DownloaderImplTest {
           return when (path) {
             "Patient" ->
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Searchset),
+                type = Enumeration(value = BundleType.Searchset),
                 entry =
                   listOf(
                     Bundle.Entry(resource = Patient(id = "pa-123")),
@@ -64,14 +70,14 @@ class DownloaderImplTest {
               )
             "Encounter" ->
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Searchset),
+                type = Enumeration(value = BundleType.Searchset),
                 entry =
                   listOf(
                     Bundle.Entry(
                       resource =
                         Encounter(
                           id = "en-123",
-                          status = Enumeration(value = Encounter.EncounterStatus.Planned),
+                          status = Enumeration(value = EncounterStatus.Planned),
                           `class` =
                             Coding(
                               code = Code(value = "AMB"),
@@ -90,8 +96,8 @@ class DownloaderImplTest {
                 issue =
                   listOf(
                     OperationOutcome.Issue(
-                      severity = Enumeration(value = OperationOutcome.IssueSeverity.Fatal),
-                      code = Enumeration(value = OperationOutcome.IssueType.Exception),
+                      severity = Enumeration(value = IssueSeverity.Fatal),
+                      code = Enumeration(value = IssueType.Exception),
                       diagnostics = FhirR4String(value = "Resource not found."),
                     ),
                   ),
@@ -101,8 +107,8 @@ class DownloaderImplTest {
                 issue =
                   listOf(
                     OperationOutcome.Issue(
-                      severity = Enumeration(value = OperationOutcome.IssueSeverity.Error),
-                      code = Enumeration(value = OperationOutcome.IssueType.Invalid),
+                      severity = Enumeration(value = IssueSeverity.Error),
+                      code = Enumeration(value = IssueType.Invalid),
                       diagnostics = FhirR4String(value = "Unknown"),
                     ),
                   ),
@@ -112,14 +118,14 @@ class DownloaderImplTest {
 
         private fun download(bundle: Bundle): Resource {
           return Bundle(
-            type = Enumeration(value = Bundle.BundleType.Batch_Response),
+            type = Enumeration(value = BundleType.Batch_Response),
             entry =
               listOf(
                 Bundle.Entry(
                   resource =
                     Observation(
                       id = "ob-123",
-                      status = Enumeration(value = Observation.ObservationStatus.Registered),
+                      status = Enumeration(value = ObservationStatus.Registered),
                       code = CodeableConcept(),
                       subject =
                         Reference(
@@ -180,7 +186,7 @@ class DownloaderImplTest {
           return when (path) {
             "Patient" ->
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Searchset),
+                type = Enumeration(value = BundleType.Searchset),
                 entry =
                   listOf(
                     Bundle.Entry(resource = Patient(id = "pa-123")),
@@ -188,14 +194,14 @@ class DownloaderImplTest {
               )
             "Encounter" ->
               Bundle(
-                type = Enumeration(value = Bundle.BundleType.Searchset),
+                type = Enumeration(value = BundleType.Searchset),
                 entry =
                   listOf(
                     Bundle.Entry(
                       resource =
                         Encounter(
                           id = "pa-123",
-                          status = Enumeration(value = Encounter.EncounterStatus.Planned),
+                          status = Enumeration(value = EncounterStatus.Planned),
                           `class` =
                             Coding(
                               code = Code(value = "AMB"),
@@ -214,8 +220,8 @@ class DownloaderImplTest {
                 issue =
                   listOf(
                     OperationOutcome.Issue(
-                      severity = Enumeration(value = OperationOutcome.IssueSeverity.Fatal),
-                      code = Enumeration(value = OperationOutcome.IssueType.Exception),
+                      severity = Enumeration(value = IssueSeverity.Fatal),
+                      code = Enumeration(value = IssueType.Exception),
                       diagnostics = FhirR4String(value = "Resource not found."),
                     ),
                   ),
@@ -225,8 +231,8 @@ class DownloaderImplTest {
                 issue =
                   listOf(
                     OperationOutcome.Issue(
-                      severity = Enumeration(value = OperationOutcome.IssueSeverity.Error),
-                      code = Enumeration(value = OperationOutcome.IssueType.Invalid),
+                      severity = Enumeration(value = IssueSeverity.Error),
+                      code = Enumeration(value = IssueType.Invalid),
                       diagnostics = FhirR4String(value = "Unknown"),
                     ),
                   ),
@@ -236,14 +242,14 @@ class DownloaderImplTest {
 
         private fun download(bundle: Bundle): Resource {
           return Bundle(
-            type = Enumeration(value = Bundle.BundleType.Batch_Response),
+            type = Enumeration(value = BundleType.Batch_Response),
             entry =
               listOf(
                 Bundle.Entry(
                   resource =
                     Observation(
                       id = "ob-123",
-                      status = Enumeration(value = Observation.ObservationStatus.Registered),
+                      status = Enumeration(value = ObservationStatus.Registered),
                       code = CodeableConcept(),
                       subject =
                         Reference(
@@ -297,13 +303,13 @@ class DownloaderImplTest {
 
     private fun bundleOf(vararg getRequest: String) =
       Bundle(
-        type = Enumeration(value = Bundle.BundleType.Batch),
+        type = Enumeration(value = BundleType.Batch),
         entry =
           getRequest.map {
             Bundle.Entry(
               request =
                 Bundle.Entry.Request(
-                  method = Enumeration(value = Bundle.HTTPVerb.Get),
+                  method = Enumeration(value = HTTPVerb.Get),
                   url = Uri(value = it),
                 ),
             )

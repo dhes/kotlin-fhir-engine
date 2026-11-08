@@ -27,8 +27,9 @@ import dev.ohs.fhir.model.r4.FhirDateTime
 import dev.ohs.fhir.model.r4.HumanName
 import dev.ohs.fhir.model.r4.Observation
 import dev.ohs.fhir.model.r4.Patient
-import dev.ohs.fhir.model.r4.SearchParameter.SearchComparator
 import dev.ohs.fhir.model.r4.String as FhirString
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
+import dev.ohs.fhir.model.r4.terminologies.SearchComparator
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -182,7 +183,7 @@ class SortMatchingTest {
   private fun observation(id: String, effective: String?) =
     Observation(
       id = id,
-      status = Enumeration(value = Observation.ObservationStatus.Final),
+      status = Enumeration(value = ObservationStatus.Final),
       code = CodeableConcept(),
       effective =
         effective?.let {

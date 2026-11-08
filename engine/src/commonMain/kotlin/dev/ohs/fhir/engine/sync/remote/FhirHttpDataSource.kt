@@ -23,8 +23,8 @@ import dev.ohs.fhir.engine.sync.upload.request.BundleUploadRequest
 import dev.ohs.fhir.engine.sync.upload.request.UploadRequest
 import dev.ohs.fhir.engine.sync.upload.request.UrlUploadRequest
 import dev.ohs.fhir.model.r4.Binary
-import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.HTTPVerb
 import io.ktor.util.decodeBase64String
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -53,11 +53,11 @@ internal class FhirHttpDataSource(private val fhirHttpService: FhirHttpService) 
 
   private suspend fun uploadIndividualRequest(request: UrlUploadRequest): Resource =
     when (request.httpVerb) {
-      Bundle.HTTPVerb.Post -> fhirHttpService.post(request.url, request.resource, request.headers)
-      Bundle.HTTPVerb.Put -> fhirHttpService.put(request.url, request.resource, request.headers)
-      Bundle.HTTPVerb.Patch ->
+      HTTPVerb.Post -> fhirHttpService.post(request.url, request.resource, request.headers)
+      HTTPVerb.Put -> fhirHttpService.put(request.url, request.resource, request.headers)
+      HTTPVerb.Patch ->
         fhirHttpService.patch(request.url, request.resource.toJsonPatch(), request.headers)
-      Bundle.HTTPVerb.Delete -> fhirHttpService.delete(request.url, request.headers)
+      HTTPVerb.Delete -> fhirHttpService.delete(request.url, request.headers)
       else -> error("The method, ${request.httpVerb}, is not supported for upload")
     }
 

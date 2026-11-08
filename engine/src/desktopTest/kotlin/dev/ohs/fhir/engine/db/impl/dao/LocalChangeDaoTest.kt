@@ -27,6 +27,7 @@ import dev.ohs.fhir.model.r4.Observation
 import dev.ohs.fhir.model.r4.Patient
 import dev.ohs.fhir.model.r4.Reference
 import dev.ohs.fhir.model.r4.String as FhirString
+import dev.ohs.fhir.model.r4.terminologies.ObservationStatus
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -72,7 +73,7 @@ class LocalChangeDaoTest {
   private fun observation(id: String, subject: String, encounter: String? = null) =
     Observation(
       id = id,
-      status = Enumeration(value = Observation.ObservationStatus.Final),
+      status = Enumeration(value = ObservationStatus.Final),
       code = CodeableConcept(),
       subject = Reference(reference = FhirString(value = subject)),
       encounter = encounter?.let { Reference(reference = FhirString(value = it)) },

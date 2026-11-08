@@ -30,6 +30,7 @@ import dev.ohs.fhir.model.r4.Bundle
 import dev.ohs.fhir.model.r4.DomainResource
 import dev.ohs.fhir.model.r4.OperationOutcome
 import dev.ohs.fhir.model.r4.Resource
+import dev.ohs.fhir.model.r4.terminologies.BundleType
 import dev.ohs.fhir.model.r4.terminologies.ResourceType
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.transformWhile
@@ -72,7 +73,7 @@ internal class Uploader(
           listOf(ResourceUploadResponseMapping(mappedUploadRequest.localChanges, response))
         mappedUploadRequest is BundleUploadRequestMapping &&
           response is Bundle &&
-          response.type.value == Bundle.BundleType.Transaction_Response ->
+          response.type.value == BundleType.Transaction_Response ->
           handleBundleUploadResponse(mappedUploadRequest, response)
         else ->
           throw IllegalStateException(
